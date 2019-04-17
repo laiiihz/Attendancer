@@ -166,4 +166,16 @@
         app:layout_constraintStart_toEndOf="@+id/checkBox_autologin"
         app:layout_constraintTop_toBottomOf="@+id/editTextPsw" />
 
+    <Button
+        android:id="@+id/textDev"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@"
+        android:textColor="@color/textDev"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/test_button" />
+
 </android.support.constraint.ConstraintLayout>

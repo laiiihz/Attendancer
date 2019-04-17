@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     Handler handler=new UIHnadler();
     int positionMain=0;
+    int count=0;
 
 //    class Worked extends Thread{
 //        void getMsg(String url) throws IOException {
@@ -121,6 +122,26 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }.start();
+            }
+        });
+
+        Button textView=findViewById(R.id.textDev);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count++;
+                if(count==10){
+                    Toast.makeText(MainActivity.this,"继续点击进入开发者模式",Toast.LENGTH_SHORT).show();
+                }
+                if(count>10){
+                    Toast.makeText(MainActivity.this,"再点击"+(15-count)+"次进入开发模式",Toast.LENGTH_SHORT).show();
+                }
+                if(count==15){
+                    count=0;
+                    Intent intent=new Intent();
+                    intent.setClass(MainActivity.this,DevActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
