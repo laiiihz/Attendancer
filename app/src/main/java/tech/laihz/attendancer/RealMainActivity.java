@@ -3,12 +3,17 @@ package tech.laihz.attendancer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +21,9 @@ import android.widget.Toast;
 public class RealMainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+
+    private Boolean[] studentChecked=new Boolean[100];
+    private Boolean isStartNaming=false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -25,14 +33,14 @@ public class RealMainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
-                    solveHome();
+                    //solveHome();
                     setTitle("Home");
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
                     setTitle("Dashboard");
                     LinearLayout linearLayout=findViewById(R.id.lineLayoutHome);
-                    linearLayout.removeAllViews();
+
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
@@ -45,6 +53,7 @@ public class RealMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setTitle("Home");
         setContentView(R.layout.activity_real_main);
@@ -52,6 +61,24 @@ public class RealMainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Button button=findViewById(R.id.button_name);
+        button.setOnClickListener(v -> {
+            if(!isStartNaming){
+                isStartNaming=true;
+                button.setText("点到");
+            }else {
+
+            }
+        });
+        ConstraintLayout constraintLayout=findViewById(R.id.start_naming);
+        Switch switcher=findViewById(R.id.switchNaming);
+        switcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                constraintLayout.setVisibility(View.GONE);
+            }else {
+                constraintLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -59,6 +86,8 @@ public class RealMainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.right_menu,menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
