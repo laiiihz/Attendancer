@@ -1,7 +1,5 @@
 package tech.laihz.attendancer;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +26,7 @@ public class DevActivity extends AppCompatActivity {
             System.out.print("#################"+result);
             ProgressBar progressBar=findViewById(R.id.progressBar);
             Button button=findViewById(R.id.buttonTest);
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
             button.setClickable(true);
             TextView textViewAll=findViewById(R.id.textViewAll);
             textViewAll.setText(result2);
@@ -54,30 +52,34 @@ public class DevActivity extends AppCompatActivity {
         setTitle("开发者模式");
         Button button=findViewById(R.id.buttonTest);
         ProgressBar progressBar=findViewById(R.id.progressBar);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                button.setClickable(false);
-                new Thread(){
-                    public void run(){
-                        HttpGets httpGets=new HttpGets();
-                        try {
-                            String result=httpGets.runBaidu("https://www.baidu.com");
-                            String result2=httpGets.runBaidud("https://baidu.com");
-                            Message msg = new Message();
-                            Bundle data = new Bundle();
-                            System.out.print("@@@@@@@@@@@@@@@@"+result);
-                            data.putString("message",result);
-                            data.putString("msgall",result2);
-                            msg.setData(data);
-                            handler.sendMessage(msg);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+        TextView textView=findViewById(R.id.textViewAll);
+        TextView textView1=findViewById(R.id.textView3);
+
+
+        button.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            button.setClickable(false);
+            textView.setText("testing...");
+            textView1.setText("testing...");
+
+            new Thread(){
+                public void run(){
+                    HttpGets httpGets=new HttpGets();
+                    try {
+                        String result=httpGets.runBaidu();
+                        String result2=httpGets.runBaidud("https://baidu.com");
+                        Message msg = new Message();
+                        Bundle data = new Bundle();
+                        System.out.print("@@@@@@@@@@@@@@@@"+result);
+                        data.putString("message",result);
+                        data.putString("msgall",result2);
+                        msg.setData(data);
+                        handler.sendMessage(msg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }.start();
-            }
+                }
+            }.start();
         });
 
     }

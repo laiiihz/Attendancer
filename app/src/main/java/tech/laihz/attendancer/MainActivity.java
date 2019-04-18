@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,17 +27,6 @@ public class MainActivity extends AppCompatActivity {
     int positionMain=0;
     int count=0;
 
-//    class Worked extends Thread{
-//        void getMsg(String url) throws IOException {
-//            HttpGets httpGets=new HttpGets();
-//            String result=httpGets.run(url);
-//            Message msg=new Message();
-//            Bundle bundle=new Bundle();
-//            bundle.putString("message",result);
-//            msg.setData(bundle);
-//            handler.sendMessage(msg);
-//        }
-//    }
 
     class UIHnadler extends Handler{
         @Override
@@ -80,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences=getSharedPreferences("settings",MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
-//        editor.putBoolean("devIsOpen",false);
-//        editor.apply();
-        Toast.makeText(MainActivity.this,"dev"+sharedPreferences.getBoolean("devIsOpen",false),Toast.LENGTH_SHORT).show();
 
         ProgressBar progressBar=findViewById(R.id.progressBar1);
         Button button=findViewById(R.id.button_login);
@@ -136,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
         Button textView=findViewById(R.id.textDev);
         boolean devIsOpen=sharedPreferences.getBoolean("devIsOpen",false);
         if(devIsOpen){
-            Toast.makeText(MainActivity.this,"opened  ",Toast.LENGTH_SHORT).show();
-            textView.setTextColor(getResources().getColor(R.color.colorAccent));
+            textView.setTextColor(ContextCompat.getColor(MainActivity.this,R.color.colorAccent));
         }
         textView.setOnClickListener(new View.OnClickListener() {
             @Override

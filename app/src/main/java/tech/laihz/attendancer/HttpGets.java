@@ -1,7 +1,5 @@
 package tech.laihz.attendancer;
 
-import android.util.Log;
-
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -9,14 +7,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 class HttpGets {
-    private String Str;
+
+    private Request RequestGen(String url){
+        return new Request.Builder().url(url).build();
+    }
     private OkHttpClient client = new OkHttpClient();
 
     String run(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
+        Request request = RequestGen(url);
         try (Response response = client.newCall(request).execute()) {
                 //System.out.println("$$$￥￥￥"+response.body().string());
                 String result=response.body().string();
@@ -26,18 +24,13 @@ class HttpGets {
         }
     }
 
-    String runBaidu(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
+    String runBaidu() throws IOException {
+        Request request  = RequestGen("https://www.baidu.com");
         try (Response response = client.newCall(request).execute()) {
-            //System.out.println("$$$￥￥￥"+response.body().string());
             int result=response.code();
             String results=""+result;
             System.out.println("$$$$$$$$$$$$"+result);
             return results;
-
         }
     }
     String runBaidud(String url) throws IOException {
