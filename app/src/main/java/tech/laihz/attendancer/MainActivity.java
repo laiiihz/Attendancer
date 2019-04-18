@@ -1,6 +1,7 @@
 package tech.laihz.attendancer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences=getSharedPreferences("settings",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+//        editor.putBoolean("devIsOpen",false);
+//        editor.apply();
+        Toast.makeText(MainActivity.this,"dev"+sharedPreferences.getBoolean("devIsOpen",false),Toast.LENGTH_SHORT).show();
+
         ProgressBar progressBar=findViewById(R.id.progressBar1);
         Button button=findViewById(R.id.button_login);
         Button button1=findViewById(R.id.test_button);
@@ -126,22 +134,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button textView=findViewById(R.id.textDev);
+        boolean devIsOpen=sharedPreferences.getBoolean("devIsOpen",false);
+        if(devIsOpen){
+            Toast.makeText(MainActivity.this,"opened  ",Toast.LENGTH_SHORT).show();
+            textView.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
-                if(count==10){
-                    Toast.makeText(MainActivity.this,"继续点击进入开发者模式",Toast.LENGTH_SHORT).show();
-                }
-                if(count>10){
-                    Toast.makeText(MainActivity.this,"再点击"+(15-count)+"次进入开发模式",Toast.LENGTH_SHORT).show();
-                }
-                if(count==15){
-                    count=0;
+                if(!devIsOpen){
+                    count++;
+                    if(count==10){
+                        Toast.makeText(MainActivity.this,"继续点击进入开发者模式",Toast.LENGTH_SHORT).show();
+                    }
+                    if(count>10){
+                        Toast.makeText(MainActivity.this,"再点击"+(15-count)+"次进入开发模式",Toast.LENGTH_SHORT).show();
+                    }
+                    if(count==15){
+                        count=0;
+                        editor.putBoolean("devIsOpen",true);
+                        editor.apply();
+                        Intent intent=new Intent();
+                        intent.setClass(MainActivity.this,DevActivity.class);
+                        startActivity(intent);
+                    }
+                }else {
                     Intent intent=new Intent();
                     intent.setClass(MainActivity.this,DevActivity.class);
                     startActivity(intent);
                 }
+
             }
         });
 
